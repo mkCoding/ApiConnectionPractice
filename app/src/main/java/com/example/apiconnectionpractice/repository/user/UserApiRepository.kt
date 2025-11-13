@@ -1,8 +1,7 @@
-package com.example.apiconnectionpractice.repository
+package com.example.apiconnectionpractice.repository.user
 
 import com.example.apiconnectionpractice.data.model.user.UsersModel
 
-
-interface ApiRepository {
+interface UserApiRepository {
     suspend fun getAllUsers(): UsersModel
 }

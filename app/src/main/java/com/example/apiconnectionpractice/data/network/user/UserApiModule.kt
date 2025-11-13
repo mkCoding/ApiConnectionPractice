@@ -1,7 +1,5 @@
-package com.example.apiconnectionpractice.di
+package com.example.apiconnectionpractice.data.network.user
 
-import com.example.apiconnectionpractice.data.network.ApiDetails
-import com.example.apiconnectionpractice.data.network.ApiEndpoints
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,7 +13,7 @@ import javax.inject.Singleton
 
 @InstallIn(SingletonComponent::class)
 @Module
-object ApiModule {
+object UserApiModule {
 
     // Api Key Required
 
@@ -44,7 +42,7 @@ object ApiModule {
     @Singleton
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
         return Retrofit.Builder()
-            .baseUrl(ApiDetails.BASE_URL)
+            .baseUrl(UserApiDetails.BASE_URL)
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
@@ -52,8 +50,8 @@ object ApiModule {
 
     @Provides
     @Singleton
-    fun provideApiEndpoints(retrofit: Retrofit): ApiEndpoints {
-        return retrofit.create(ApiEndpoints::class.java)
+    fun provideApiEndpoints(retrofit: Retrofit): UserApiEndpoints {
+        return retrofit.create(UserApiEndpoints::class.java)
     }
 
 
