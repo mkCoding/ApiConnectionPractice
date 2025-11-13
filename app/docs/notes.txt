@@ -1,0 +1,16 @@
+app/
+ ├─ src/main/java/com/example/app/
+ │  ├─ model/               # Data classes / DTOs
+ │  ├─ repository/          # Repositories (API or local)
+ │  ├─ network/             # Retrofit/Ktor clients, API interfaces
+ │  ├─ viewmodel/           # ViewModels
+ │  ├─ ui/
+ │  │   ├─ screens/         # Composable screens
+ │  │   │   ├─ MainScreen.kt
+ │  │   │   └─ DetailsScreen.kt
+ │  │   ├─ components/      # Reusable Composables (buttons, cards)
+ │  │   └─ theme/           # Colors, typography, shapes
+ │  └─ util/                # Helpers, extensions, constants
+ └─ res/
+     ├─ drawable/
+     └─ values/
