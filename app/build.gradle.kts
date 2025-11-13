@@ -5,6 +5,12 @@ plugins {
 
     id ("kotlin-kapt")
     id ("com.google.dagger.hilt.android")
+    id("jacoco")
+
+}
+
+jacoco {
+    toolVersion = "0.8.10" // or latest version
 }
 
 android {
@@ -24,6 +30,10 @@ android {
     }
 
     buildTypes {
+
+        getByName("debug") {
+            enableUnitTestCoverage = true
+        }
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -46,6 +56,36 @@ android {
         correctErrorTypes = true
     }
 }
+
+tasks.register("jacocoTestReport", JacocoReport::class) {
+    dependsOn("testDebugUnitTest") // run unit tests first
+
+    reports {
+        xml.required.set(true)
+        html.required.set(true)
+        csv.required.set(false)
+        html.outputLocation.set(file("${buildDir}/reports/jacoco"))
+    }
+
+    val fileFilter = listOf(
+        "**/R.class",
+        "**/R$*.class",
+        "**/BuildConfig.*",
+        "**/Manifest*.*",
+        "**/*Test*.*"
+    )
+
+    val debugTree = fileTree(layout.buildDirectory.dir("tmp/kotlin-classes/debug")) {
+        exclude(fileFilter)
+    }
+
+    sourceDirectories.setFrom(files("src/main/java"))
+    classDirectories.setFrom(files(debugTree))
+    executionData.setFrom(fileTree(layout.buildDirectory) {
+        include("jacoco/testDebugUnitTest.exec")
+    })
+}
+
 
 dependencies {
     //Hilt
