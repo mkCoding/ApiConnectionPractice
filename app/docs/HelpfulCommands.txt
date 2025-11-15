@@ -1,0 +1,4 @@
+
+Run Jacoco Test Coverage
+
+./gradlew testDebugUnitTest jacocoTestReport
