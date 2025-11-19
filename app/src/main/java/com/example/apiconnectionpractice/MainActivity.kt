@@ -28,7 +28,8 @@ class MainActivity : ComponentActivity() {
             ApiConnectionPracticeTheme {
                 val viewModel: UsersViewModel = hiltViewModel()
                 val usersData by viewModel.userData.collectAsState()
-                UsersListScreen(usersData = usersData)
+                val productData by viewModel.productData.collectAsState()
+                UsersListScreen(usersData = usersData, productData = productData)
             }
         }
     }

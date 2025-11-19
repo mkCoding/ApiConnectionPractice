@@ -1,5 +1,8 @@
 package com.example.apiconnectionpractice.di
 
+import com.example.apiconnectionpractice.data.model.products.Products
+import com.example.apiconnectionpractice.repository.product.ProductApiRepository
+import com.example.apiconnectionpractice.repository.product.ProductApiRepositoryImpl
 import com.example.apiconnectionpractice.repository.user.UserApiRepository
 import com.example.apiconnectionpractice.repository.user.UserApiRepositoryImpl
 import dagger.Binds
@@ -19,5 +22,12 @@ abstract class RepositoryModule {
     ): UserApiRepository
 
 
+    @Binds
+    @Singleton
+    abstract fun bindProductApiRepository(
+        productApiRepositoryImpl: ProductApiRepositoryImpl
+    ): ProductApiRepository
+
     // if there are any more apis you plan on adding in future add below
 }
+

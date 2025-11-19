@@ -1,5 +1,8 @@
 package com.example.apiconnectionpractice.data.network.user
 
+
+import com.example.apiconnectionpractice.data.network.UserOkHttp
+import com.example.apiconnectionpractice.data.network.UserRetrofit
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -11,20 +14,21 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
-@InstallIn(SingletonComponent::class)
 @Module
+@InstallIn(SingletonComponent::class)
 object UserApiModule {
 
-    // Api Key Required
+    private const val API_KEY = "reqres-free-v1"
 
-    private const val API_KEY = "reqres-free-v1" // ideally load from BuildConfig or secure storage
-
+    // Provide the OkHttpClient for User API
+    @UserOkHttp
     @Provides
     @Singleton
-    fun provideOkHttpClient(): OkHttpClient {
+    fun provideUserOkHttpClient(): OkHttpClient {
         val authInterceptor = Interceptor { chain ->
             val request = chain.request().newBuilder()
-                .addHeader("x-api-key", API_KEY).build()
+                .addHeader("x-api-key", API_KEY)
+                .build()
             chain.proceed(request)
         }
 
@@ -38,9 +42,13 @@ object UserApiModule {
             .build()
     }
 
+    // Provide Retrofit for User API
+    @UserRetrofit
     @Provides
     @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit {
+    fun provideUserRetrofit(
+        @UserOkHttp okHttpClient: OkHttpClient
+    ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(UserApiDetails.BASE_URL)
             .client(okHttpClient)
@@ -48,27 +56,12 @@ object UserApiModule {
             .build()
     }
 
+    // Provide the API endpoints
     @Provides
     @Singleton
-    fun provideApiEndpoints(retrofit: Retrofit): UserApiEndpoints {
+    fun provideUserApiEndpoints(
+        @UserRetrofit retrofit: Retrofit
+    ): UserApiEndpoints {
         return retrofit.create(UserApiEndpoints::class.java)
     }
-
-
-
-    // No API Key======
-//    @Provides
-//    @Singleton
-//    fun provideRetrofit(): Retrofit {
-//        return Retrofit.Builder()
-//            .baseUrl(ApiDetails.BASE_URL)
-//            .addConverterFactory(GsonConverterFactory.create())
-//            .build()
-//    }
-//
-//    @Provides
-//    @Singleton
-//    fun provideApiEndpoints(retrofit: Retrofit): ApiEndpoints {
-//        return retrofit.create(ApiEndpoints::class.java)
-//    }
 }
