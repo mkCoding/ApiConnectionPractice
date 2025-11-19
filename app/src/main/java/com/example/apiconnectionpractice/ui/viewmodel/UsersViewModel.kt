@@ -25,9 +25,6 @@ class UsersViewModel @Inject constructor(
 
     private val _productData = MutableStateFlow<List<ProductsItemModel>>(emptyList())
     val productData: StateFlow<List<ProductsItemModel>> = _productData
-//    private val _productData = MutableStateFlow<Products?>(null)
-//    val productData: StateFlow<Products?> = _productData
-
 
     init {
         fetchUserData()
